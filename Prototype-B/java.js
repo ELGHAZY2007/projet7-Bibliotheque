@@ -1,8 +1,28 @@
+var selectedRow = null
 document.getElementById("formSubmit").addEventListener("submit", function (event) {
     event.preventDefault();
-    var work = readwork();
-    insertNewRow(work);
+    if (validate()) {
+        var work = readwork();
+        if (selectedRow == null)
+            insertNewRow(work);
+        else
+        if (confirm("Êtes-vous sûr de modifier cette œuvre?"))
+            editRow(work)
+        resetForm();
+    } else {
+        alert("S'il-vous-plaît remplissez tous les champs requis")
+    }
 })
+
+function resetForm() {
+    document.getElementById("inputTitle").value = "";
+    document.getElementById("inputAuthor").value = "";
+    document.getElementById("inputPrix").value = "";
+    document.getElementById("inputDate").value = "";
+    document.getElementById("inputLanguage").value = "";
+    document.querySelector('input[name="workType"]:checked').checked = false
+    selectedRow = null;
+}
 
 var onEditButton = document.getElemen
 
@@ -14,13 +34,7 @@ function readwork() {
     work["price"] = parseFloat(document.getElementById("inputPrix").value);
     work["date"] = document.getElementById("inputDate").value;
     work["language"] = document.getElementById("inputLanguage").value;
-    var cheackValues = document.getElementsByName("workType");
-    for (var i = 0; i < cheackValues.length; i++) {
-        if (cheackValues[i].checked) {
-            work["type"] = cheackValues[i].value;
-            break;
-        }
-    }
+    work["type"] = document.querySelector('input[name="workType"]:checked').value
     return work;
 }
 
@@ -48,6 +62,7 @@ function insertNewRow(work) {
     var editContent = document.createTextNode("Edit")
     editButton.appendChild(editContent)
     editButton.className = "btn btn-primary"
+    editButton.setAttribute('onclick', 'onEdit(this)')
 
     var deleteContent = document.createTextNode('Delete')
     deleteButton.appendChild(deleteContent)
@@ -59,12 +74,61 @@ function insertNewRow(work) {
 
 }
 
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("inputTitle").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("inputAuthor").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("inputPrix").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("inputDate").value = selectedRow.cells[3].innerHTML;
+    document.getElementById("inputLanguage").value = selectedRow.cells[4].innerHTML;
+
+    var checkValue = document.getElementsByName("workType");
+    for (var i = 0; i < checkValue.length; i++) {
+        if (checkValue[i].value == selectedRow.cells[5].innerHTML) {
+            checkValue[i].checked = true
+        }
+    }
+}
+
+function editRow(workToEdit) {
+    selectedRow.cells[0].innerHTML = workToEdit.title;
+    selectedRow.cells[1].innerHTML = workToEdit.author;
+    selectedRow.cells[2].innerHTML = workToEdit.price;
+    selectedRow.cells[3].innerHTML = workToEdit.date;
+    selectedRow.cells[4].innerHTML = workToEdit.language;
+    selectedRow.cells[5].innerHTML = workToEdit.type;
+
+}
 
 
 
-function onDelete(td){
-    if(confirm("Êtes-vous sûr de supprimer cette œuvre?")){
+function onDelete(td) {
+    if (confirm("Êtes-vous sûr de supprimer cette œuvre?")) {
         row = td.parentElement.parentElement;
         document.getElementById("worksTable").deleteRow(row.rowIndex)
     }
+}
+
+
+function validate() {
+    var isValid = true;
+    if (document.getElementById("inputTitle").value == "") {
+        isValid = false;
+    }
+    if (document.getElementById("inputAuthor").value == "") {
+        isValid = false;
+    } 
+    if (document.getElementById("inputPrix").value == "") {
+        isValid = false;
+    } 
+    if (document.getElementById("inputDate").value == "") {
+        isValid = false;
+    } 
+    if (document.getElementById("inputLanguage").value == "") {
+        isValid = false;
+    } 
+    if (document.querySelector('input[name="workType"]').value == null) {
+        isValid = false;
+    }  
+    return isValid;
 }
