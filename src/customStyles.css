@@ -1,12 +1,12 @@
 nav {
-    background-color: #D3BEAB !important;
+    background-color: #F3D5C0 !important;
 }
 
 a {
     color: #3D412C !important;
 }
 .sb-sidenav-custom {
-    background-color: #F0EBE8 !important;
+    background-color: #F3D5C0 !important;
 }
 
 .btn-primary-custom {
@@ -36,7 +36,7 @@ a {
     
   }
   .btn-secondary-custom:hover {
-    background-color: #FAF9F8 !important;
+    background-color: #FFFDDE !important;
     border-color: #3D412C;
     color: #6A8490;
 }
