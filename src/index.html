@@ -6,65 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Interface de gestion des ouvrages" />
-    <meta name="author" content="lharrak botaina" />
-    <title>Gestion des ouvrages</title>
-    <link href="style.cssgit" rel="stylesheet" />
-    <link rel="stylesheet" href="custom.css">
+    <meta name="author" content="ESSARRAJ Fouad" />
+    <title>📘Gestion des ouvrages</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/customStyles.css">
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand  ">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Gestion des ouvrages</a>
+        <a class="navbar-brand ps-3" href="index.html">Gestion d'ouvrages v1</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    
+            <nav class="sb-sidenav accordion " id="sidenavAccordion">
+                <div class="sb-sidenav-menu sb-sidenav-custom">
+                    <div class="nav">
+
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+                    </div>
                 </div>
-                <div class="sb-sidenav-footer">
+                <div class="sb-sidenav-footer sb-sidenav-custom">
                     <div class="small">Logged in as:</div>
-                    lharrak botaina
+                    🐱‍👤Hackerman
                 </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Ouvrages</h1>
-                    <div class="show">
-                        <button onclick=show()>+Nouveau Formulaire</button>
+                    <h1 class="mt-4">Gestion d'ouvrages</h1>
+                    <div>
+                        <button id="showFormBtn" class="btn-custom  m-3 btn-primary-custom">+ Nouveau</button>
                     </div>
-                    <div id="formulaire" class="card mb-4">
+                    <div id="formCard" class="card mb-4 d-none">
 
                         <div class="card-header">
-
-                            <div>📝 Formulaire</div>
-
+                            <div>📘Ouvrage</div>
                         </div>
                         <div class="card-body">
-                            <div class="hide col-md-12">
-                                <button  onclick=hide() >X</button>
-                            </div>
-                           
-
-                            <form id="formSubmit"  class="row g-3">
+                            <form id="formSubmit" class="row g-3">
                                 <div class="col-md-12">
-                                    
-                                    <label for="inputTitle" class="form-label">Title</label>
-                                    <input required type="text" class="form-control" id="inputTitle" maxlength="30">
+                                    <label for="inputTitle" class="form-label">Titre</label>
+                                    <input required type="text" maxlength="30" class="form-control" id="inputTitle">
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="inputAuthor" class="form-label">Author</label>
-                                    <input required type="text" class="form-control" id="inputAuthor" maxlength="30">
+                                <div class="col-md-12">
+                                    <label for="inputAuthor" class="form-label">Auteur</label>
+                                    <input required type="text" class="form-control" maxlength="30" id="inputAuthor">
                                 </div>
                                 <div class="col-6">
                                     <label for="inputPrix" class="form-label">Prix</label>
-                                    <input required type="number" step=any  class="form-control" id="inputPrix">
+                                    <input required type="number" step=any class="form-control" id="inputPrix">
                                 </div>
                                 <div class="col-6">
                                     <label for="inputDate" class="form-label">Date de </label>
@@ -80,23 +78,26 @@
                                         <option value="arabe">Arabe</option>
                                     </select>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <label for="workType" class="form-label">Type</label>
                                     <div class="form-check">
-                                        <input required class="form-check-input" name="workType" value="Roman" type="radio" id="gridCheck">
+                                        <input required class="form-check-input" name="workType" value="Roman"
+                                            type="radio" id="gridCheck">
                                         <label class="form-check-label" for="gridCheck">
                                             Roman
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input required class="form-check-input" name="workType" value="Essai" type="radio" id="gridCheck">
+                                        <input required class="form-check-input" name="workType" value="Essai"
+                                            type="radio" id="gridCheck">
                                         <label class="form-check-label" for="gridCheck">
                                             Essai
                                         </label>
                                     </div>
 
                                     <div class="form-check">
-                                        <input required class="form-check-input" name="workType" value="Bande-Dessinée"  type="radio" id="gridCheck">
+                                        <input required class="form-check-input" name="workType" value="Bande-Dessinée"
+                                            type="radio" id="gridCheck">
                                         <label class="form-check-label" for="gridCheck">
                                             Bande-Dessinée
                                         </label>
@@ -104,7 +105,8 @@
 
                                 </div>
                                 <div class="col-12">
-                                    <button id="submitButton" type="submit" class="btn btn-primary">Enregistrer</button>
+                                    <button id="submitButton" type="submit"
+                                        class="btn btn-primary-custom">Enregistrer</button>
                                 </div>
                             </form>
 
@@ -112,18 +114,18 @@
                     </div>
                     <div class="card mb-4">
                         <div class="card-header">
-                            📘
+                            📘Ouvrages
                         </div>
                         <div class="card-body">
                             <table class="table" id="worksTable">
                                 <thead>
                                     <tr>
                                         <th>Titre</th>
-                                        <th>Auteur</th>
-                                        <th>Prix</th>
-                                        <th>Date de publication</th>
+                                        <th class="d-none d-lg-table-cell">Auteur</th>
+                                        <th class="d-none d-lg-table-cell">Prix</th>
+                                        <th class="d-none d-lg-table-cell">Date de publication</th>
                                         <th>Langue</th>
-                                        <th>Type</th>
+                                        <th class="d-none d-lg-table-cell">Type</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -138,7 +140,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                        <div class="text-muted">Copyright &copy; Gestion d'ouvrages 2021</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
@@ -149,7 +151,7 @@
             </footer>
         </div>
     </div>
-    <script src="java.js"></script>
+    <script src="script.js"></script>
 
 </body>
 

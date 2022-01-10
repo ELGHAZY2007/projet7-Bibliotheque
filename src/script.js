@@ -1,4 +1,9 @@
 var selectedRow = null
+document.getElementById("showFormBtn").addEventListener("click", function() {
+    var formCard = document.getElementById('formCard')
+    formCard.classList.toggle("d-none")
+})
+
 document.getElementById("formSubmit").addEventListener("submit", function (event) {
     event.preventDefault();
     if (validate()) {
@@ -9,6 +14,7 @@ document.getElementById("formSubmit").addEventListener("submit", function (event
         if (confirm("Êtes-vous sûr de modifier cette œuvre?"))
             editRow(work)
         resetForm();
+        document.getElementById('formCard').className = "d-none"
     } else {
         alert("S'il-vous-plaît remplissez tous les champs requis")
     }
@@ -23,8 +29,6 @@ function resetForm() {
     document.querySelector('input[name="workType"]:checked').checked = false
     selectedRow = null;
 }
-
-var onEditButton = document.getElemen
 
 function readwork() {
 
@@ -43,30 +47,42 @@ function readwork() {
 function insertNewRow(work) {
     var tableBody = document.getElementById("worksTable").getElementsByTagName('tbody')[0];
     var newRow = tableBody.insertRow(tableBody.length);
-    newRow.insertCell(0).innerHTML = work.title;
+    cell1 = newRow.insertCell(0)
+    cell1.innerHTML = work.title;
+
     cell2 = newRow.insertCell(1);
     cell2.innerHTML = work.author;
+    cell2.className = "d-none d-lg-table-cell"
+
     cell3 = newRow.insertCell(2);
     cell3.innerHTML = work.price;
+    cell3.className = "d-none d-lg-table-cell"
+
     cell4 = newRow.insertCell(3);
     cell4.innerHTML = work.date;
+    cell4.className = "d-none d-lg-table-cell"
+
     cell5 = newRow.insertCell(4);
     cell5.innerHTML = work.language
+
     cell6 = newRow.insertCell(5)
     cell6.innerHTML = work.type
+    cell6.className = "d-none d-lg-table-cell"
+
+
     cell7 = newRow.insertCell(6)
 
     var editButton = document.createElement("button")
     var deleteButton = document.createElement("button")
 
-    var editContent = document.createTextNode("Edit")
+    var editContent = document.createTextNode("Modifier")
     editButton.appendChild(editContent)
-    editButton.className = "btn btn-primary"
+    editButton.className = "btn-custom btn-primary-custom me-1"
     editButton.setAttribute('onclick', 'onEdit(this)')
 
-    var deleteContent = document.createTextNode('Delete')
+    var deleteContent = document.createTextNode('Supprimer')
     deleteButton.appendChild(deleteContent)
-    deleteButton.className = "btn btn-secondary"
+    deleteButton.className = "btn-custom btn-secondary-custom"
     deleteButton.setAttribute("onclick", 'onDelete(this)')
 
     cell7.appendChild(editButton)
@@ -74,8 +90,9 @@ function insertNewRow(work) {
 
 }
 
-function onEdit(td) {
-    selectedRow = td.parentElement.parentElement;
+function onEdit(buttonReference) {
+    document.getElementById('formCard').classList.remove("d-none")
+    selectedRow = buttonReference.parentElement.parentElement;
     document.getElementById("inputTitle").value = selectedRow.cells[0].innerHTML;
     document.getElementById("inputAuthor").value = selectedRow.cells[1].innerHTML;
     document.getElementById("inputPrix").value = selectedRow.cells[2].innerHTML;
@@ -102,10 +119,11 @@ function editRow(workToEdit) {
 
 
 
-function onDelete(td) {
+function onDelete(buttonReference) {
     if (confirm("Êtes-vous sûr de supprimer cette œuvre?")) {
-        row = td.parentElement.parentElement;
+        row = buttonReference.parentElement.parentElement;
         document.getElementById("worksTable").deleteRow(row.rowIndex)
+        resetForm()
     }
 }
 
