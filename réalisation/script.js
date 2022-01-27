@@ -1,150 +1,140 @@
-var workManager = new WorkManager();
-var selectedRow = null;
-var rowId = null;
-insertNewRow()
+var gestionOuvrage = new GestionOuvrage();
 
-document.getElementById("afficheButtons").addEventListener("click", function() {
-    var formulaireCarte = document.getElementById('formulaireCarte')
-    formulaireCarte.classList.toggle("d-none")
+var selectRow = null;
+var rowId = null;
+document.getElementById("showFormBtn").addEventListener("click", function() {
+    var formN = document.getElementById('formN')
+    formN.classList.toggle("d-none")
 })
 
-document.getElementById("soumettreFormul").addEventListener("submit", function (event) {
+document.getElementById("formSubmit").addEventListener("submit", function (event) {
     event.preventDefault();
-    var work = readwork();
-    if (selectedRow == null) {
-        
-        workManager.addWork(work);
-        alert(work.workDetail())
-    } else
-    if (confirm("Êtes-vous sûr de modifier cette œuvre?")){
-        work.id = rowId;
-        workManager.editWork(work)
-
+    var ouvrage = readOuvrage();
+    if (selectRow == null) {
+        gestionOuvrage.addOuvrage(ouvrage);
     }
-        
+    else
+    if (confirm("Êtes-vous sûr de modifier cette œuvre?")){
+        ouvrage.id = rowId;
+        gestionOuvrage.modifierOuvrage(ouvrage)
+    }
+
     insertNewRow();
 
     resetForm();
+     
 })
 
 function resetForm() {
-    document.getElementById("titreEntrée").value = "";
-    document.getElementById("auteurEntrée").value = "";
-    document.getElementById("prix").value = "";
-    document.getElementById("dateEntrée").value = "";
-    document.getElementById("langue").value = "";
-    document.querySelector('input[name="typeTravail"]:checked').checked = false
-    selectedRow = null;
+    document.getElementById("inputTitle").value = "";
+    document.getElementById("inputAuthor").value = "";
+    document.getElementById("inputPrix").value = "";
+    document.getElementById("inputDate").value = "";
+    document.getElementById("inputLanguage").value = "";
+    document.querySelector('input[name="workType"]:checked').checked = false
+    selectRow = null;
 }
 
 
-
-function readwork() {
-    var work = new Work();
+function readOuvrage() {
+    var ouvrage = new Ouvrage();
     
-    work.title = document.getElementById("titreEntrée").value;
-    work["author"] = document.getElementById("auteurEntrée").value;
-    work["price"] = parseFloat(document.getElementById("prix").value);
-    work["date"] = document.getElementById("dateEntrée").value;
-    work["language"] = document.getElementById("langue").value;
-    work["type"] = document.querySelector('input[name="typeTravail"]:checked').value
-    return work;
+    ouvrage.titre = document.getElementById("inputTitle").value;
+    ouvrage["auteur"] = document.getElementById("inputAuthor").value;
+    ouvrage["prix"] = parseFloat(document.getElementById("inputPrix").value);
+    ouvrage["date"]= document.getElementById("inputDate").value;
+    ouvrage["langue"] = document.getElementById("inputLanguage").value;
+    ouvrage["type"] = document.querySelector('input[name="workType"]:checked').value
+
+    return ouvrage;
 }
+
+
 
 function insertNewRow() {
-    var workList = workManager.getAllItems()
-    var tableBody = document.getElementById("tableauTravaux").getElementsByTagName('tbody')[0];
-    
-    while(tableBody.rows.length > 0) {
-        tableBody.deleteRow(0);
-      }
+    var List = gestionOuvrage.ouvrageList
+    var tableBody = document.getElementById("worksTable").getElementsByTagName('tbody')[0];
+   while(tableBody.rows.length > 0){
+       tableBody.deleteRow(0);
+   }
+   for(var i = 0; i < List.length; i++){
+    var newRow = tableBody.insertRow(tableBody.length);
+    cell1 = newRow.insertCell(0)
+    cell1.innerHTML =List[i].id;
+
+    cell2 = newRow.insertCell(1);
+    cell2.innerHTML = List[i].titre;
+
+    cell3 = newRow.insertCell(2);
+    cell3.innerHTML = List[i].auteur;
+  
+    cell4 = newRow.insertCell(3);
+    cell4.innerHTML = List[i].prix;
+
+    cell5 = newRow.insertCell(4);
+    cell5.innerHTML = List[i].date;
+
+    cell6 = newRow.insertCell(5);
+    cell6.innerHTML = List[i].langue;
+
+    cell7 = newRow.insertCell(6);
+    cell7.innerHTML = List[i].type;
+
+    cell8 = newRow.insertCell(7);
 
 
-    for(var i = 0; i < workList.length; i++){
-        var newRow = tableBody.insertRow(tableBody.length);
-        newRow.insertCell(0).innerHTML = workList[i].id;
+    var modifierButton = document.createElement("button")
+    var suprimerButton = document.createElement("button")
 
-        cell2 = newRow.insertCell(1)
-        cell2.innerHTML = workList[i].title;
+    var modifierContent = document.createTextNode("modifier")
+    modifierButton.appendChild(modifierContent)
+    modifierButton.setAttribute('onclick', 'modifier(this)')
 
-        cell3 = newRow.insertCell(2);
-        cell3.innerHTML = workList[i].author;
-        cell3.className = "d-none d-lg-table-cell"
-
-        cell4 = newRow.insertCell(3);
-        cell4.innerHTML = workList[i].price;
-        cell4.className = "d-none d-lg-table-cell"
-
-        cell5 = newRow.insertCell(4);
-        cell5.innerHTML = workList[i].date;
-        cell5.className = "d-none d-lg-table-cell"
-
-        cell6 = newRow.insertCell(5);
-        cell6.innerHTML = workList[i].language
-
-        cell7 = newRow.insertCell(6)
-        cell7.innerHTML = workList[i].type
-        cell7.className = "d-none d-lg-table-cell"
-
-
-        cell8 = newRow.insertCell(7)
-
-        var editButton = document.createElement("button")
-        var deleteButton = document.createElement("button")
-
-        var editContent = document.createTextNode("Modifier")
-        editButton.appendChild(editContent)
-        editButton.className = "btn-custom btn-primary-custom me-1"
-        editButton.setAttribute('onclick', 'onEdit(this)')
-
-        var deleteContent = document.createTextNode('Supprimer')
-        deleteButton.appendChild(deleteContent)
-        deleteButton.className = "btn-custom btn-secondary-custom"
-        deleteButton.setAttribute("onclick", 'onDelete(this)')
-
-        cell8.appendChild(editButton)
-        cell8.appendChild(deleteButton)
-    }
-    
+    var suprimerContent = document.createTextNode('suprimer')
+    suprimerButton.appendChild(suprimerContent)
+    suprimerButton.setAttribute("onclick", 'suprimer(this)')
+ 
+   cell8.appendChild(modifierButton)  
+   cell8.appendChild(suprimerButton)  
+  }
+  
 }
 
-function onEdit(buttonReference) {
-    document.getElementById('formulaireCarte').classList.remove("d-none")
-    selectedRow = buttonReference.parentElement.parentElement;
-    rowId = selectedRow.cells[0].innerHTML
-    var work = new Work();
-    work = workManager.getItem(rowId)
-    document.getElementById("titreEntrée").value = work.title;
-    document.getElementById("auteurEntrée").value = work.author;
-    document.getElementById("prix").value = work.price;
-    document.getElementById("dateEntrée").value = work.date;
-    document.getElementById("langue").value = work.language;
+function modifier(buttonReference) {
+    selectRow = buttonReference.parentElement.parentElement;
+    rowId = selectRow.cells[0].innerHTML
+    var ouvrage = new Ouvrage();
+    ouvrage = gestionOuvrage.getItem(rowId)
+    document.getElementById("inputTitle").value = ouvrage.titre;
+    document.getElementById("inputAuthor").value = ouvrage.auteur;
+    document.getElementById("inputPrix").value = ouvrage.prix;
+    document.getElementById("inputDate").value = ouvrage.date;
+    document.getElementById("inputLanguage").value = ouvrage.langue;
 
-    var checkValue = document.getElementsByName("typeTravail");
+    var checkValue = document.getElementsByName("workType");
     for (var i = 0; i < checkValue.length; i++) {
-        if (checkValue[i].value == work.type) {
+        if (checkValue[i].value == ouvrage.type) {
             checkValue[i].checked = true
         }
     }
 
 }
-
-function onDelete(buttonReference) {
+function suprimer(buttonReference) {
     if (confirm("Êtes-vous sûr de supprimer cette œuvre?")) {
         var row = buttonReference.parentElement.parentElement;
         var rowId = row.cells[0].innerHTML
 
-        document.getElementById("tableauTravaux").deleteRow(row.rowIndex)
+        document.getElementById("worksTable").deleteRow(row.rowIndex)
         
-        workManager.deleteWork(rowId)
+        gestionOuvrage.suprimerOuvrage(rowId)
         resetForm()
     }
 }
-
-function onPrint() {
-    var tab = document.getElementById('tableauTravaux');
-    var win = window.open();
-    win.document.write(tab.outerHTML);
-    win.document.close();
-    win.print();
+function printData()
+{
+   var divToPrint=document.getElementById("worksTable");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
 }
