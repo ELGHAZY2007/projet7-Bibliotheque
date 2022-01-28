@@ -1,31 +1,31 @@
-class GestionProduit {
+class gestionSalle {
 
-    #listProduit = []; 
+    #listSalle = []; 
     compter = 0
     
     
-    get listProduit (){
+    get listSalle (){
     
-        return this.#listProduit
+        return this.#listSalle
     }
     
     
     
-    addProduit(produit){
+    addSalle(salle){
     
     this.compter = this.compter + 1
-    produit.id = this.compter 
+    salle.id = this.compter 
     
-    this.#listProduit.push(produit)
+    this.#listSalle.push(salle)
     
     
     }
     
     getId(id){
        
-        for (let i = 0; i < this.listProduit.length; i++) {
-            if(id == this.#listProduit[i].id){
-                return this.#listProduit[i]
+        for (let i = 0; i < this.listSalle.length; i++) {
+            if(id == this.#listSalle[i].id){
+                return this.#listSalle[i]
     
             }
             
@@ -34,11 +34,11 @@ class GestionProduit {
     }
     
     
-    modifierProduit(produit){
+    modifierSalle(Salle){
     
-    for (let i = 0; i < this.#listProduit.length; i++) {
-        if(produit.id == this.#listProduit[i].id){
-            this.#listProduit[i] = produit
+    for (let i = 0; i < this.#listSalle.length; i++) {
+        if(salle.id == this.#listSalle[i].id){
+            this.#listSalle[i] = salle
     
             
          
@@ -48,9 +48,9 @@ class GestionProduit {
     
     
     
-    suprimerProduit(id) {
-        this.#listProduit =  this.#listProduit.filter(function(produit){
-            return produit.id != id
+    suprimerSalle(id) {
+        this.#listSalle =  this.#listSalle.filter(function(salle){
+            return salle.id != id
         })
         
             

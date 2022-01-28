@@ -1,8 +1,8 @@
-class Produit {
+class Salle {
 
     id 
-    name
-    prix
+    Nature
+    Numero
     
     
     

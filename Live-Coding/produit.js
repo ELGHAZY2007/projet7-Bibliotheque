@@ -1,4 +1,4 @@
-var gestionProduit = new GestionProduit
+var gestionSalle = new gestionSalle
 var insertRow = null
 var rowId;
 
@@ -7,16 +7,16 @@ document.getElementById("formSubmit").addEventListener("submit",function(event){
 event.preventDefault()
 
 
-produit = readProduit()
+Salle = readSalle()
 
 if(insertRow == null){
-    gestionProduit.addProduit(produit)
+    gestionSalle.addSalle(salle)
 }
 
 else
 if( confirm("modifier")){
-    produit.id = rowId
-    gestionProduit.modifierProduit(produit)
+    salle.id = rowId
+    gestionSalle.modifierSalle(salle)
 
 
 }
@@ -27,28 +27,28 @@ restForm()
 })
 function restForm(){
 
- document.getElementById("name").value = ''
- document.getElementById("prix").value= ' '
+ document.getElementById("Nature").value = ''
+ document.getElementById("Numero").value= ' '
 }
 
 
 
 
 
-function readProduit(produit){
+function readSalle(salle){
 
-var produit = new Produit()
+var salle = new Salle()
 
-produit.name = document.getElementById("name").value
-produit.prix = document.getElementById("prix").value
+salle.Nature = document.getElementById("Nature").value
+salle.Numero = document.getElementById("Numero").value
 
-return produit
+return salle
 }
 
 
 function insertNewRow(){
 
-    var list  = gestionProduit.listProduit
+    var list  = gestionSalle.listSalle
 
     var tableList = document.getElementById("TableList").getElementsByTagName("tbody")[0];
 
@@ -62,10 +62,10 @@ for (let i = 0; i < list.length; i++) {
     cell1.innerHTML = list[i].id 
 
 cell2 = newRow.insertCell(1);
-    cell2.innerHTML = list[i].name
+    cell2.innerHTML = list[i].Nature
 
     cell3 = newRow.insertCell(2);
-    cell3.innerHTML = list[i].prix
+    cell3.innerHTML = list[i].Numero
 
     cell4 = newRow.insertCell(3)
 
@@ -95,10 +95,10 @@ cell2 = newRow.insertCell(1);
 function modifier(buttonreferance){
 insertRow = buttonreferance.parentElement.parentElement
 rowId  = insertRow.cells[0].innerHTML
-produit= new Produit()
-produit = gestionProduit.getId( rowId)
-document.getElementById("name").value = produit.name
-document.getElementById("prix").value = produit.prix   
+salle= new Salle()
+salle = gestionSalle.getId( rowId)
+document.getElementById("Nature").value = salle.Nature
+document.getElementById("Numero").value = salle.Numero
 
 }
 
@@ -110,7 +110,7 @@ if (confirm("supprime")) {
 
     document.getElementById("TableList").deleteRow(row.rowIndex)
 
-    gestionProduit.suprimerProduit(rowId)
+    gestionSalle.suprimerSalle(rowId)
     resetForm()
 }
 }
