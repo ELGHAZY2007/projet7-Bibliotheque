@@ -26,7 +26,7 @@ class salleManager{
             if(salle.id = this.salleList[i].id){
               this.salleList[i] = salle;
 
-              return salle;
+              return salle ;
             }
         }
     }
